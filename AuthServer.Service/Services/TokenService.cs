@@ -49,7 +49,7 @@ namespace AuthServer.Service.Services
         {
             var claims = new List<Claim>();
             claims.AddRange(client.Audiences.Select(x => new Claim(JwtRegisteredClaimNames.Aud, x)));
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),//random değer üretir
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());//random değer üretir
             new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString());
             return claims;
         }

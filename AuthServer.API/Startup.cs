@@ -6,6 +6,7 @@ using AuthServer.Core.UnitOfWork;
 using AuthServer.Data;
 using AuthServer.Data.Repositories;
 using AuthServer.Service.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -48,7 +49,7 @@ namespace AuthServer.API
             {
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServer"), sqlOptions =>
                 {
-                    sqlOptions.MigrationsAssembly("UdemyAuthServer.Data");//migraton oluşturulacak yer
+                    sqlOptions.MigrationsAssembly("AuthServer.Data");//migraton oluşturulacak yer
                 });
             });
 
@@ -59,9 +60,29 @@ namespace AuthServer.API
 
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
+           
+
             services.AddAuthentication(options =>
             {
-                //options.DefaultAuthenticateScheme=JwtBearerDefaults
+                //bir üyelik sisteminde kullanıcı olarak gir bayi olarak gir gibi özellikler burada scheme olarak adlandırılır.
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme= JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
+            {
+                var tokenOptions = Configuration.GetSection("TokenOption").Get<CustomTokenOption>();//mapleme işlemi yaptık
+                opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                {//validasyonu burada gerçekleştireceğiz.
+                    ValidIssuer = tokenOptions.Issuer, //www.autserver.com
+                    ValidAudience = tokenOptions.Audience[0],//www.authserver.com,www.miniapi1.com
+                    IssuerSigningKey = SignService.GetSymmetricSecurityKey(tokenOptions.SecurityKey),
+                    
+
+                    ValidateIssuerSigningKey= true,//mutlaka bir imzası olması zorundadır.
+                    ValidateAudience=true,//doğrulama
+                    ValidateIssuer=true, //doğrula
+                    ValidateLifetime=true,
+                    ClockSkew=TimeSpan.Zero,//default eklenen vakti 0'a çeker. Tölerans değerini 0'a indirdim.
+                };
             });
 
 
@@ -92,6 +113,8 @@ namespace AuthServer.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //ekleme
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

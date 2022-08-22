@@ -11,7 +11,7 @@ namespace AuthServer.Core.Services
     public interface IAuthenticationService
     {
     //kullanıcıdan username ve passwordu alacağım ve doğruysa token döndereceğim.
-    Task<Response<TokenDto>> CreateToktenAsync(LoginDto loginDto);//başarılı ise dönüş yapar.
+    Task<Response<TokenDto>> CreateTokenAsync(LoginDto loginDto);//başarılı ise dönüş yapar.
     Task<Response<TokenDto>> CreateTokenByRefreshToken(string refreshToken);
         //refresh token ile yeni bir token alabilir.
 

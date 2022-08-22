@@ -31,7 +31,7 @@ namespace AuthServer.Service.Services
             _unitOfWork = unitOfWork;
             _userRefreshTokenService = userRefreshTokenService;
         }
-        public async Task<Response<TokenDto>> CreateToktenAsync(LoginDto loginDto)
+        public async Task<Response<TokenDto>> CreateTokenAsync(LoginDto loginDto)
         {
             if (loginDto == null) throw new ArgumentNullException(nameof(loginDto));
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
