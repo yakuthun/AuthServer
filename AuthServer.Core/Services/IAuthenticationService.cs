@@ -16,7 +16,9 @@ namespace AuthServer.Core.Services
         //refresh token ile yeni bir token alabilir.
 
     Task<Response<NoDataDto>> RevokeRefreshToken(string refreshToken);//logout olursa null yapar.
-    Task<Response<ClientTokenDto>> CreateTokenByClient(ClientLoginDto loginDto);
+
+        //task kaldırıldı async değil.
+    Response<ClientTokenDto> CreateTokenByClient(ClientLoginDto loginDto);
      //api'nin appsettings.json'unda client verilerini tutacağız.
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AuthServer.Core.Configuration
 {
     public class Client
-    {//bu client AuthServer'a istecek yapacak uygulamalara karşılık gelir.
+    {//bu client AuthServer'a istek yapacak uygulamalara karşılık gelir.
         public string Id { get; set; }
         public string Secret { get; set; }
         public List<String> Audiences { get; set; }
