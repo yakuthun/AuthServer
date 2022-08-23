@@ -25,7 +25,7 @@ namespace AuthServer.API.Controllers
         }
         //Client için token oluşturma
         [HttpPost]
-        public IActionResult CreateTokenByClient(ClientLoginDto clientLoginDto) 
+        public IActionResult CreateTokenByClient(ClientLoginDto clientLoginDto) //örn: sadece api3'e istek yapabilmesini sağlar
         { 
             var result =  _authenticationService.CreateTokenByClient(clientLoginDto);
             return ActionResultInstance(result);
