@@ -62,6 +62,9 @@ namespace AuthServer.API
 
            
 
+
+
+
             services.AddAuthentication(options =>
             {
                 //bir üyelik sisteminde kullanıcı olarak gir bayi olarak gir gibi özellikler burada scheme olarak adlandırılır.
